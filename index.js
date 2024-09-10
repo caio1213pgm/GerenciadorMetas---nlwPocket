@@ -1,11 +1,20 @@
-console.log("Olá, mundo!");
+const menu = () =>{
+    
+    while(true){
+        console.log(`1 - Criar metas 2 - Listar metas`)
+        let opcao = 1;
+        switch(opcao){
+            case 1: 
+                console.log("Criar metas");
+            break;
+            case 2: 
+                console.log("Listas metas");
+            break
+            case 3:
+                console.log("Sair");
+                return;
+        }
+    };
+};
 
-
-let meta = {
-    objetivo: "Estudar e praticar 2 horas por dia", // atributos do objeto ou propriedades
-    estado: false, //atributos do objeto ou propriedades
-    apresentarMeta: () => { //metódo do objeto, função/ação que ele realiza 
-        console.log(`Objetivo a ser realizado: ${meta.objetivo}. Meta concluida? ${meta.estado}`);
-    },
-}
-console.log(meta.isChecked());
+menu();
