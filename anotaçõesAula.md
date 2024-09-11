@@ -4,6 +4,7 @@ Maneira de dar instrução ao computador.
 Como um lego, você irá utilizar peças para criar algoritmos, ou seja, para resolver problemas.
 
 > 💡 **Algoritmo**: Sequência de passos lógica e finita para resolução de um problema.
+
 ## Peças de uma linguagem
 
 - Comentários
@@ -35,12 +36,14 @@ Apresentar os dados
 
 - [x] Operadores de atribuição de valor: =
 - [x] Operador de contatenação: +
+- [x] Operadores de comparação: == != <= >= < >
 
 ## Estruturas de dados:
 
 ### Arrays: 
 
-- [x] Uma lista que contém qualquer tipo de dado 
+- [x] Uma lista que contém qualquer tipo de dado
+- [x] Métodos de array: push, find, forEach
 
 ### Objetos:
 
