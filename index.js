@@ -1,8 +1,8 @@
-const {select, input} = require('@inquirer/prompts');
+const {select, input, checkbox} = require('@inquirer/prompts');
 
 let meta01 = {
-    objetivo: "Estudar 2 horas por dia",
-    status: false,
+    value: "Estudar 2 horas por dia",
+    checked: false,
 }
 
 let metas = [
@@ -17,9 +17,35 @@ const cadastrarMeta = async() => {
         return cadastrarMeta();
     }
     metas.push({
-        objetivo: meta,
-        status: false
+        value: meta,
+        checked: false
     });
+}
+
+const listarMetas = async () =>{
+    const respostas = await checkbox({
+        message: "Espaço para marcar ou desmarcar e Enter para finalizar",
+        choices: [...metas],
+        instructions: false
+    })
+
+    if(respostas.length == 0){
+        console.log("Nenhuma meta selecionada!");
+        return;
+    }
+
+    metas.forEach((m) => {
+        m.checked = false;
+    })
+
+    respostas.forEach((resposta) => {
+        const meta = metas.find((m) => {
+            return m.value == resposta;
+        })
+        meta.checked = true;
+    })
+
+    console.log("Metas concluídas");
 }
 
 const menu = async() =>{
@@ -57,8 +83,8 @@ const menu = async() =>{
                 break;
             case 2: 
                 console.log("Visualizando metas:");
-                console.log(metas);
-                break
+                await listarMetas();
+                break;
             case 3:
                 console.log("Marcar metas");
                 break;
@@ -66,7 +92,7 @@ const menu = async() =>{
                 console.log("Remover metas");
                 break;
             case 5:
-                console.log("Sair");
+                console.log("Até breve");
                 return;
         }
     };
