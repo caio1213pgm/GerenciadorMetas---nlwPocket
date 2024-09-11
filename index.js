@@ -1,4 +1,26 @@
-const {select} = require('@inquirer/prompts');
+const {select, input} = require('@inquirer/prompts');
+
+let meta01 = {
+    objetivo: "Estudar 2 horas por dia",
+    status: false,
+}
+
+let metas = [
+    meta01,
+]
+
+const cadastrarMeta = async() => {
+    const meta = await input({message: "Digite uma meta"});
+
+    if(meta.length == 0){
+        console.log("A meta não pode ser vazia. Tente novamente!");
+        return cadastrarMeta();
+    }
+    metas.push({
+        objetivo: meta,
+        status: false
+    });
+}
 
 const menu = async() =>{
     
@@ -30,10 +52,12 @@ const menu = async() =>{
         });
         switch(opcao){
             case 1: 
-                console.log("Criar metas");
+                await cadastrarMeta();
+                console.log("Meta adicionada com sucesso!");
                 break;
             case 2: 
-                console.log("Listar metas");
+                console.log("Visualizando metas:");
+                console.log(metas);
                 break
             case 3:
                 console.log("Marcar metas");
