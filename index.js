@@ -1,14 +1,39 @@
-const menu = () =>{
+const {select} = require('@inquirer/prompts');
+
+const menu = async() =>{
     
     while(true){
-        console.log(`1 - Criar metas; 2 - Listar metas; 3 - Marcar metas; 4 - Remover metas; 5 - Sair`)
-        let opcao = 5;
+        const opcao = await select({
+            message: "Menu: ",
+            choices: [
+                {
+                    name: "Cadastrar meta",
+                    value:1
+                },
+                {
+                    name: "Listar  metas",
+                    value: 2
+                },
+                {
+                    name: "Marcar metas",
+                    value: 3
+                },
+                {
+                    name: "Remover metas",
+                    value: 4
+                },
+                {
+                    name: "Sair",
+                    value: 5
+                }
+            ]
+        });
         switch(opcao){
             case 1: 
                 console.log("Criar metas");
                 break;
             case 2: 
-                console.log("Listas metas");
+                console.log("Listar metas");
                 break
             case 3:
                 console.log("Marcar metas");
