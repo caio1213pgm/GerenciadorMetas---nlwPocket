@@ -27,23 +27,23 @@ const listarMetas = async () =>{
         message: "Espaço para marcar ou desmarcar e Enter para finalizar",
         choices: [...metas],
         instructions: false
-    })
+    });
 
     metas.forEach((m) => {
         m.checked = false;
-    })
+    });
 
     if(respostas.length == 0){
         console.log("Nenhuma meta selecionada!");
         return;
-    }
+    };
 
     respostas.forEach((resposta) => {
         const meta = metas.find((m) => {
             return m.value == resposta;
         })
         meta.checked = true;
-    })
+    });
 
     console.log("Metas concluídas");
 }
@@ -59,8 +59,25 @@ const  metasRealizadas = async () =>{
     }
 
     await select({
-        message: "Metas realizadas:",
+        message: "Metas realizadas: " + realizadas.length,
         choices: [...realizadas]
+    })
+}
+
+const metasAbertas = async () => {
+
+    const abertas = metas.filter((meta) => {
+        return meta.checked != true;
+    })
+
+    if(abertas.length == 0){
+        console.log("Não existem metas abertas!");
+        return;
+    }
+
+    await select({
+        message: "Metas abertas: " + abertas.length,
+        choices: [...abertas]
     })
 }
 
@@ -83,8 +100,12 @@ const menu = async() =>{
                     value: 3
                 },
                 {
-                    name: "Sair",
+                    name:"Metas abertas",
                     value: 4
+                },
+                {
+                    name: "Sair",
+                    value: 5
                 }
             ]
         });
@@ -93,15 +114,23 @@ const menu = async() =>{
                 await cadastrarMeta();
                 console.log("Meta adicionada com sucesso!");
                 break;
+
             case 2: 
                 console.log("Visualizando metas:");
                 await listarMetas();
                 break;
+
             case 3:
                 console.log("Visualizando metas realizadas");
                 await metasRealizadas();
                 break;
+
             case 4:
+                console.log("Visualizando metas abertas");
+                await metasAbertas();
+                break;
+
+            case 5:
                 console.log("Até breve");
                 return;
         }
