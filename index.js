@@ -33,7 +33,7 @@ const listarMetas = async () =>{
         m.checked = false;
     });
 
-    if(respostas.length == 0){
+    if(respostas.length == 0 || metas.length == 0){
         console.log("Nenhuma meta selecionada!");
         return;
     };
@@ -81,6 +81,32 @@ const metasAbertas = async () => {
     })
 }
 
+const removerMetas = async () =>{
+
+    const metasDesmarcadas = metas.map((meta) => {
+        return { value: meta.value, checked: false };
+    })
+
+    const paraDeletar = await checkbox({
+        message: "Selecione um item para deletar",
+        choices: [...metasDesmarcadas],
+        instructions: false
+    });
+
+    if(paraDeletar.length == 0){
+        console.log("Nenhum item a ser deletado");
+        return;
+    }
+    
+    paraDeletar.forEach((item) => {
+        metas = metas.filter((meta) => {
+            return meta.value != item;
+        })
+    })
+
+    console.log("Metas deletas!");
+}
+
 const menu = async() =>{
     
     while(true){
@@ -104,11 +130,16 @@ const menu = async() =>{
                     value: 4
                 },
                 {
-                    name: "Sair",
+                    name:"Remover metas",
                     value: 5
+                },
+                {
+                    name: "Sair",
+                    value: 6
                 }
             ]
         });
+
         switch(opcao){
             case 1: 
                 await cadastrarMeta();
@@ -129,8 +160,11 @@ const menu = async() =>{
                 console.log("Visualizando metas abertas");
                 await metasAbertas();
                 break;
-
-            case 5:
+            case 5: 
+                console.log("Deletar metas: ");
+                await removerMetas();
+                break;
+            case 6:
                 console.log("Até breve");
                 return;
         }
