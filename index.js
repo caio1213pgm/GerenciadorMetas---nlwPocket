@@ -1,4 +1,5 @@
 const {select, input, checkbox} = require('@inquirer/prompts');
+const fs = require('fs').promises;
 
 let mensagem = "Bem vindo";
 
@@ -10,6 +11,21 @@ let meta01 = {
 let metas = [
     meta01,
 ]
+
+const carregarMetas = async () => {
+
+    try{
+        const dados = await fs.readFile("metas.json", "utf-8");
+        metas = JSON.parse(dados);
+    }
+    catch(erro){
+        metas = [];
+    }
+}
+
+const salvarMetas = async () => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+}
 
 const cadastrarMeta = async() => {
     const meta = await input({message: "Digite uma meta"});
@@ -28,6 +44,11 @@ const cadastrarMeta = async() => {
 
 const listarMetas = async () =>{
 
+    if(metas.length == 0){
+        mensagem = "Não existem metas. Crie uma meta!";
+        return;
+    }
+
     mensagem = "Visualizando metas";
     
     const respostas = await checkbox({
@@ -40,7 +61,7 @@ const listarMetas = async () =>{
         m.checked = false;
     });
 
-    if(respostas.length == 0 || metas.length == 0){
+    if(respostas.length == 0){
         mensagem = "Nenhuma meta selecionada!";
         return;
     };
@@ -56,6 +77,12 @@ const listarMetas = async () =>{
 }
 
 const  metasRealizadas = async () =>{
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas. Crie uma meta!";
+        return
+    }
+
     mensagem = "Visualizando metas realizadas";
     const realizadas = metas.filter((meta) => {
         return meta.checked;
@@ -73,6 +100,12 @@ const  metasRealizadas = async () =>{
 }
 
 const metasAbertas = async () => {
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas. Crie uma meta!";
+        return
+    }
+
     mensagem = "Visualizando metas abertas";
     const abertas = metas.filter((meta) => {
         return meta.checked != true;
@@ -90,6 +123,11 @@ const metasAbertas = async () => {
 }
 
 const removerMetas = async () =>{
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas. Crie uma meta!";
+        return
+    }
 
     const metasDesmarcadas = metas.map((meta) => {
         return { value: meta.value, checked: false };
@@ -126,9 +164,11 @@ const mensagens = () => {
 }
 
 const menu = async() =>{
-    
+    await carregarMetas();
+
     while(true){
         mensagens();
+        await salvarMetas();
         const opcao = await select({
             message: "Menu: ",
             choices: [

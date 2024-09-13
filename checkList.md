@@ -5,3 +5,4 @@
 - [x] Marcar/Desmarcar metas realizadas<br>
 - [x] Remover metas <br>
 - [x] Sistema de mensages
+- [x] Sistemas real de metas
